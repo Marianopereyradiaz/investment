@@ -14,7 +14,7 @@ class App extends CI_Controller {
 	public function index()
 	{
 		$this->load->library("form_validation");
-		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
+		$this->form_validation->set_rules('amount', 'Monto', 'trim|required|numeric');
 
 		if ($this->form_validation->run() == TRUE) {
 			$this->amounts_model->add(set_value("amount"));
