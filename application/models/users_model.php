@@ -60,5 +60,32 @@ class users_model extends CI_Model{
         $this->db->set("password",$newpassword, true);
         $this->db->update($this->table);
     }
+
+    public function verify_email($email=""){
+        $this->db->select("user");
+        $this->db->where("email",$email);
+        $this->db->limit(1);
+
+        $res=$this->db->get($this->table);      
+        if($res->num_rows()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function get_by_email($email=""){
+        $this->db->select("id_user");
+        $this->db->where("email",$email);
+        $this->db->limit(1);
+
+        $res=$this->db->get($this->table);      
+        if($res->num_rows()){
+            $temp=$res->row_array();
+            return $this->get_by_id($temp["id_user"]);
+        }else{
+            return false;
+        }
+    }
 }
 ?>

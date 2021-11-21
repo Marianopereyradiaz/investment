@@ -8,60 +8,28 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
-    <title>Mis Fondos</title>
+    <title>Cotizaciones</title>
   </head>
   <body>
   <?php $this->load->view("components/navbar");?>
 	<div class="container">
 		<div class="row">
-			<div class="col col-md-10 offset-md-1">
-				<?php $this->load->view("components/currency_converter");?>
+			<div class="col col-md-6 offset-md-3">
+			    <h1 style="text-align:center">Cotizaciones</h1>		
 			</div>
 		</div>
-		<div class="row">
+        <div class="row">
 			<div class="col col-md-6 offset-md-3">
-			<h1>Mis Fondos:</h1>
-      			<div class="card bg-light mb-3">
-					<div class="card-header">Agregar</div>
-					<div class="card-body">
-						<h5 class="card-title">Crear Nuevo Fondo de Inversión</h5>
-						<a href="<?php echo site_url("funds/create"); ?>"><button type="button" class="btn btn-primary">Crear</button></a>
-					</div>
-				</div>
-				<?php foreach($funds as $f){ ?>
-					<div class="card bg-light mb-3">
-						<div class="card-header"><?php echo $f["name"];?></div>
-						<div class="card-body">
-							<h5 class="card-title">Moneda: <?php echo $f["currency"];?></h5>
-							<a href="<?php echo site_url("funds/see_fund/".$f["id_fund"]); ?>" class="btn btn-primary">Ver</a>
-							<a href="<?php echo site_url("funds/delete/".$f["id_fund"]); ?>" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Eliminar</a></td>						
-						</div>
-					</div>
-				<?php } ?>
-				<!-- Modal -->
-				<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="deleteModalLabel"></h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<p>¿Seguro desea eliminar este fondo?</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-							<a href="<?php echo site_url("funds/delete/".$f["id_fund"]); ?>" class="btn btn-danger">Eliminar</a></td>
-						</div>
-						</div>
-					</div>
-				</div>
+            <iframe src="https://es.widgets.investing.com/live-currency-cross-rates?theme=darkTheme&roundedCorners=true&pairs=1505,1608,1729,2090" width="100%" height="600" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe><div class="poweredBy" style="font-family: Arial, Helvetica, sans-serif;"></div>	
 			</div>
+		</div>
+        <div class="row">
+			<div class="col col-md-6 offset-md-3">
+            <iframe src="https://es.widgets.investing.com/crypto-currency-rates?theme=darkTheme&roundedCorners=true&pairs=945629,997650,1001803,1010773,1010776" width="100%" height="600" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe><div class="poweredBy" style="font-family: Arial, Helvetica, sans-serif;"></div>
+            </div>
 		</div>
 	</div>
-    
+   
 
     <!-- Optional JavaScript; choose one of the two! -->
 

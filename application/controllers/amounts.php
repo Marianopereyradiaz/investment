@@ -33,16 +33,18 @@ class amounts extends CI_Controller {
 		$amounts_array =$this->amounts_model->list($id_fund);
 		$this->data["amounts"]=$amounts_array;
 
-
-
-        foreach($amounts_array as $aa) {
-			$chart_array[] =array(
-			'date'   => $aa['date'],
-			'amount' => floatval($aa['amount'])
-			);
-        }
+		if(count($amounts_array)>0){
+			foreach($amounts_array as $aa) {
+				$chart_array[] =array(
+				'date'   => $aa['date'],
+				'amount' => floatval($aa['amount'])
+				);
+			}
         
-        $this->data['chart_array'] = ($chart_array); 
+        $this->data['chart_array'] = $chart_array; 
+		}else{
+			$this->data['chart_array'] = false; 
+		}
 
 		$this->load->view('client/investment',$this->data);
 	}

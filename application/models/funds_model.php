@@ -10,19 +10,7 @@ class funds_model extends CI_Model{
         return $this->db->get($this->table)->result_array();
     }
 
-    function get_first(){
-        $this->db->order_by("id_fund","asc");
-        $this->db->limit(1);
-        return $this->db->get($this->table)->row_array();
-    }
-
-    function get_last(){
-        $this->db->order_by("id_fund","desc");
-        $this->db->limit(1);
-        return $this->db->get($this->table)->row_array();
-    }
-
-    function add($name="", $id_user, $currency=""){
+    function add($name="", $id_user=0, $currency=""){
         $this->db->set("name",$name);
         $this->db->set("id_user",$id_user);
         $this->db->set("currency",$currency);
