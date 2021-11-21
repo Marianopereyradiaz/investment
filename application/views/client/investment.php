@@ -35,29 +35,30 @@
 			<br>
 			<div class="col col-md-6 offset-md-3">
 			<br>
-			<div class="table-responsive">
-			<table class="table table-bordered">
-				<tbody>
-					<?php foreach($amounts as $a){ ?>
-					<tr>
-						<td><?php echo $a["date"];?> </td>
-						<td class="text-right">$<?php echo $a["amount"];?></td>
-						<td class="text-right">
-							<?php if($a["diff"]){?>
-								<?php echo $a["diff"];?>
-								<?php if($a["diff"]<=0){?>
-									<i class="bi bi-caret-down-fill text-danger"></i>
-								<?php }else{ ?>
-									<i class="bi bi-caret-up-fill text-success"></i>
-								<?php } ?>
+			<?php if(count($amounts)>0){?>
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<tbody>
+							<?php foreach($amounts as $a){ ?>
+							<tr>
+								<td><?php echo $a["date"];?> </td>
+								<td class="text-right">$<?php echo $a["amount"];?></td>
+								<td class="text-right">
+									<?php if($a["diff"]){?>
+										<?php echo $a["diff"];?>
+										<?php if($a["diff"]<=0){?>
+											<i class="bi bi-caret-down-fill text-danger"></i>
+										<?php }else{ ?>
+											<i class="bi bi-caret-up-fill text-success"></i>
+										<?php } ?>
+									<?php } ?>
+								</td>
+								<td class="text-center col-sm-1"><a href="<?php echo site_url("amounts/delete/".$a["id_amount"]); ?>" class="text-danger"><i class="bi bi-x-circle"></i></a></td>
+							</tr>
 							<?php } ?>
-						</td>
-						<td class="text-center col-sm-1"><a href="<?php echo site_url("amounts/delete/".$a["id_amount"]); ?>" class="text-danger"><i class="bi bi-x-circle"></i></a></td>
-					</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-			</div>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -66,12 +67,17 @@
 				<h4>Total acumulado desde el principio <strong>$<?php echo $accumulated; ?></strong></h4>
 			</div>
 		</div>
+		<?php } else{?>
+			<p>No existen montos</p>
+		<?php } ?>
+		<?php if($chart_array){?>
 		<div class="row">
 			<br>
 			<div class="col col-md-12 col-sm-8">
 				<div id="GoogleLineChart" style="height: 400px; width: 100%"></div>
 			</div>
 		</div>
+		<?php } ?>
 		<div class="row">
 			<div class="col col-md-6 offset-md-3">
 				<a href="<?php echo site_url("amounts/return"); ?>" class="btn btn-primary">Volver</a></td>

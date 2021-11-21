@@ -9,30 +9,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     
-    <title>Hola!</title>
-    <style>
-      body{
-        background: rgb(82,0,221);
-        background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
-        margin: 2%
-      }
-      h5, form.button, button, a{
-        align-items: center;
-        text-align: center;
-      }
-    </style>
+    <title>Crear Fondo</title>
     </head>
     <body>
       <div class="container">
+        <br>
         <div class="row">
           <div class="col-md-4 offset-md-4">
             <div class="card">
-            <img src="<?php echo base_url("assets/img/logo.png"); ?>" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Ingreso</h5>
+                <h5 class="card-title">Crear nuevo Fondo</h5>
                 <?php
-                  if(isset($OP)){
-                    switch($OP){
+                  if(isset($OPT)){
+                    switch($OPT){
                       case "WRONG":
                         ?>
                         <div class="alert alert-danger" role="alert">
@@ -40,10 +29,10 @@
                         </div>
                         <?php
                         break;
-                      case "INCORRECT":
+                      case "INVALID":
                         ?>
                         <div class="alert alert-danger" role="alert">
-                          Usuario o Contraseña incorrecta
+                          El nombre ya existe
                         </div>
                         <?php
                         break;
@@ -52,20 +41,18 @@
                 ?>
                 <form method="post">
                   <div class="form-group">
-                    <label for="user">Usuario:</label>
-                    <input type="text" class="form-control" name="user" placeholder="Ingresa tu usuario">
-                    <?php echo form_error('user', '<small class="text-danger">', '</small>'); ?>
+                    <label for="name">Nombre:</label>
+                    <input type="text" class="form-control" name="name">
+                    <?php echo form_error('name', '<small class="text-danger">', '</small>'); ?>
                   </div>
                   <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña"/>
-                    <?php echo form_error('password', '<small class="text-danger">', '</small>'); ?>
+                    <label for="currency">Moneda:</label>
+                    <input type="text" class="form-control" name="currency"/>
+                    <?php echo form_error('currency', '<small class="text-danger">', '</small>'); ?>
                   </div>
-                  <a href="<?php echo site_url("auth/forgot_password"); ?>">Olvidé mi contraseña</a>
-                  <button type="submit" class="btn btn-primary button" >Ingresar</button>
+                  <button type="submit" class="btn btn-primary button">Crear</button>
+                  <a href="<?php echo site_url("funds"); ?>" class="btn btn-success">Volver</a></td></a>
                 </form>
-                <br>
-                <a href="<?php echo site_url("auth/register"); ?>">No eres usuario? REGISTRATE AQUI</a>
               </div>
             </div>
           </div>

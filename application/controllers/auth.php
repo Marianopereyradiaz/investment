@@ -85,4 +85,85 @@ class Auth extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect("auth");
 	}
+
+	public function forgot_password(){
+		$this->load->library("form_validation");
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+
+		if($this->form_validation->run() ==TRUE){
+			
+			if($this->validate_email(set_value("email"))){
+				$config = Array(
+					'protocol' => 'smtp',
+					'smtp_host' => 'mail.maizan.elementfx.com',
+					'smtp_port' => 587,
+					'smtp_user' => 'mariano@maizan.elementfx.com',
+					'smtp_pass' => 'mariano123',
+					'mailtype'  => 'html', 
+					'charset'   => 'iso-8859-1'
+				);
+				$this->load->library('email', $config);
+				$this->email->set_newline("\r\n");
+				$this->email->from('mariano@maizan.elementfx.com', 'Recuperar Contraseña');
+				$this->email->reply_to(set_value("email"));
+				$this->email->to(set_value("email"));
+				$this->email->cc(set_value("email"));
+
+				$this->email->subject(set_value("asunto"));
+
+				$data=array();
+				$data["email"]=set_value("email");
+				$this->session->set_userdata("email",set_value("email"));
+				$code=rand(100000,999999);
+				$data["code"]=$code;
+				$this->session->set_userdata("code",$code);
+
+				$plantilla=$this->load->view("components/email", $data, TRUE);
+
+				$this->email->message($plantilla);
+
+				$this->email->send(FALSE);
+
+				redirect("auth/validate_code");
+			}else{
+				$this->data["OP"]="INVALID";
+			}
+		}else{
+
+		}
+
+		$this->load->view('reset_password', $this->data);
+	}
+
+	public function validate_email($email=""){
+		return $this->users_model->verify_email($email);
+	}
+
+	public function validate_code(){
+		$this->load->library("form_validation");
+		$this->form_validation->set_rules('code', 'Codigo', 'trim|required|numeric');
+
+		if($this->form_validation->run() ==TRUE){
+			
+			if($this->session->userdata("code") == set_value("code")){
+
+				$userrec= $this->users_model->get_by_email($this->session->userdata("email"));
+				$this->session->set_userdata("userid",$userrec["id_user"]);
+				$this->session->set_userdata("user",$userrec["user"]);
+				$this->session->set_userdata("role",$userrec["role"]);
+				$this->session->set_userdata("forgotpass",true);
+
+				$this->data["user"]=$userrec;
+
+				redirect("users/changepassword");
+			}else{
+				$this->data["OP"]="INVALID";
+			}
+		}else{
+
+		}
+
+		$this->load->view('validation', $this->data);
+	}
+	
 }

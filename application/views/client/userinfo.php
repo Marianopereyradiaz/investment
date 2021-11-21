@@ -20,7 +20,9 @@
     </style>
     </head>
     <body>
-    <?php $this->load->view("components/navbar");?>
+      <?php if(!$forgotpass){
+        $this->load->view("components/navbar");
+      }?>
       <div class="container">
       <br>
         <div class="row">
@@ -55,8 +57,8 @@
                           <div class="alert alert-danger" role="alert">
                             Las contraseñas deben ser iguales
                           </div>
-                          <button type="submit" class="btn btn-primary">Aceptar</button>
-                          <a href="<?php echo site_url("usuarios/principal")?>" class="btn btn-primary">Volver</a>
+                          <button type="submit" class="btn btn-primary">Aceptar</button>  
+                            <a href="<?php echo site_url("usuarios/principal")?>" class="btn btn-primary">Volver</a>
                           <?php
                           break;
                       case "CORRECT":
@@ -71,7 +73,11 @@
                   }else{
                 ?>
                   <button type="submit" class="btn btn-primary">Aceptar</button>
-                  <a href="<?php echo site_url("app")?>" class="btn btn-primary">Volver</a>
+                  <?php if(!$forgotpass){ ?>
+                    <a href="<?php echo site_url("amounts")?>" class="btn btn-primary">Volver</a>
+                  <?php } else{ ?>
+                      <a href="<?php echo site_url("auth")?>" class="btn btn-primary">Cancelar</a>
+                  <?php } ?>
                 <?php } ?>
                 </form>
               </div>

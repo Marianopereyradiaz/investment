@@ -14,6 +14,9 @@
         <a class="nav-link" href="<?php echo site_url("admin")?>"><i class="bi bi-people-fill text-success"></i> Ver Usuarios <span class="sr-only">(current)</span></a>
       </li>
       <?php } ?>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?php echo site_url("users/quotations")?>"><i class="bi bi-people-fill text-success"></i> Cotizaciones <span class="sr-only">(current)</span></a>
+      </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown dropdown-menu-right">
@@ -21,7 +24,7 @@
         <i class="bi bi-person-fill"></i> <?php echo $logged_user; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-        <?php if ($role === "user"){ ?>
+        <?php if ($role === "client"){ ?>
           <a class="dropdown-item" href="<?php echo site_url("users")?>">Cuenta</a>
           <div class="dropdown-divider"></div>
           <?php } ?>

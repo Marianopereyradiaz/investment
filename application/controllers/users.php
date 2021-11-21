@@ -16,7 +16,9 @@ class users extends CI_Controller {
 		}
 
         $this->data["id_user"]=$this->session->userdata("userid");
-		$this->data["logged_user"]=$this->session->userdata("user");       
+		$this->data["logged_user"]=$this->session->userdata("user");    
+		$this->data["role"]=$this->session->userdata("role");   
+		$this->data["forgotpass"]=$this->session->userdata("forgotpass");   
 	}
 
 	public function index(){
@@ -30,7 +32,6 @@ class users extends CI_Controller {
 	}
 
 	public function changepassword(){
-		$data=array();
 
 		$this->load->library('form_validation');
 
@@ -56,6 +57,15 @@ class users extends CI_Controller {
 			$this->data["OP"]="CORRECT";	
 			}
 		}
-		$this->load->view('userinfo',$this->data);
+		$this->load->view('client/userinfo',$this->data);
+	}
+
+	
+	public function quotations(){
+		$this->load->view('quotations',$this->data);
+	}
+
+	public function currency_converter(){
+		$this->load->view('currency_converter',$this->data);
 	}
 }

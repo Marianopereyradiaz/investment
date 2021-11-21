@@ -39,4 +39,40 @@ class funds extends CI_Controller {
         $this->session->set_userdata("id_fund",$id_fund);        
 		redirect("amounts");
 	}
+
+	public function create(){
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('name', 'Nombre', 'required');
+		$this->form_validation->set_rules('currency', 'Moneda', 'required');
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			if($this->input->post()){
+				$data["OPT"]="WRONG";
+			}			
+		}
+		else
+		{
+			$name=$this->input->post("name");
+			$currency=$this->input->post("currency");
+			if($this->validate_name($name)){
+				$data["OPT"]="INVALID";
+			}else{
+				$this->funds_model->add($name,$this->session->userdata("userid"),$currency);
+				redirect("funds");
+			}
+		}	
+		$this->load->view('client/create_fund',$this->data);			
+	}
+
+	public function validate_name($name){
+		$funds=$this->funds_model->list_by_user($this->session->userdata("userid"));
+		foreach($funds as $f){
+			if ($f["name"] == $name){
+				return true;
+			}
+		}
+		return false;
+	}
 }
