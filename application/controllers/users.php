@@ -9,12 +9,14 @@ class users extends CI_Controller {
 
 		parent::__construct();
 
+		$this->load->model("users_model");
+
 		if(!$this->session->userdata("userid")){
 			redirect("auth");
 		}
 
-        $this->datos["id_user"]=$this->session->userdata("userid");
-		$this->datos["logged_user"]=$this->session->userdata("user");       
+        $this->data["id_user"]=$this->session->userdata("userid");
+		$this->data["logged_user"]=$this->session->userdata("user");       
 	}
 
 	public function index(){
@@ -44,9 +46,9 @@ class users extends CI_Controller {
 		else
 		{
 			$this->load->model("users_model");
-			$id_user=$this->datos["id_user"];
+			$id_user=$this->data["id_user"];
 			$newpassword=$this->input->post("newpassword");
-			$confirmpassword= $this->input->post("confirmarpassword");
+			$confirmpassword= $this->input->post("confirmpassword");
 			if ($newpassword!=$confirmpassword){
 				$this->data["OP"]="INCORRECT";
 			}else{
@@ -54,6 +56,6 @@ class users extends CI_Controller {
 			$this->data["OP"]="CORRECT";	
 			}
 		}
-		$this->load->view('users/infouser',$this->data);
+		$this->load->view('userinfo',$this->data);
 	}
 }

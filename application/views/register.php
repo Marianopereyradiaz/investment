@@ -29,7 +29,7 @@
             <div class="card">
             <img src="<?php echo base_url("assets/img/logo.png"); ?>" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Ingreso</h5>
+                <h5 class="card-title">Registro</h5>
                 <?php
                   if(isset($OP)){
                     switch($OP){
@@ -47,24 +47,41 @@
                         </div>
                         <?php
                         break;
+                        case "CORRECT":
+                          ?>
+                          <div class="alert alert-success" role="alert">
+                            Contraseña cambiada con éxito, será redirigido al Login
+                          </div>
+                          <a href="<?php echo site_url("auth/exit")?>" class="btn btn-primary">Aceptar</a>
+                          <?php
+                          break;
                     }
-                  }
+                  }else{
                 ?>
                 <form method="post">
                   <div class="form-group">
                     <label for="user">Usuario:</label>
-                    <input type="text" class="form-control" name="user" placeholder="Ingresa tu usuario">
+                    <input type="text" class="form-control" name="user" placeholder="Ingresa tu nombre de usuario">
                     <?php echo form_error('user', '<small class="text-danger">', '</small>'); ?>
                   </div>
                   <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña"/>
+                    <label for="user">Contraseña:</label>
+                    <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña">
                     <?php echo form_error('password', '<small class="text-danger">', '</small>'); ?>
                   </div>
-                  <button type="submit" class="btn btn-primary button" >Ingresar</button>
+                  <div class="form-group">
+                    <label for="confirmpassword">Repetir Contraseña:</label>
+                    <input type="password" class="form-control" name="confirmpassword" placeholder="Repite tu contraseña">
+                    <?php echo form_error('confirmpassword', '<small class="text-danger">', '</small>'); ?>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Mail:</label>
+                    <input type="email" class="form-control" name="email" placeholder="Ingresa tu email"/>
+                    <?php echo form_error('email', '<small class="text-danger">', '</small>'); ?>
+                  </div>
+                  <button type="submit" class="btn btn-primary button" >Aceptar</button>
                 </form>
-                <br>
-                <a href="<?php echo site_url("auth/register"); ?>">No eres usuario? REGISTRATE AQUI</a>
+                <?php } ?>
               </div>
             </div>
           </div>

@@ -4,9 +4,10 @@ class users_model extends CI_Model{
 
     private $table="users";
 
-    public function new($user="",$password=""){
+    public function new($user="",$password="",$email=""){
         $this->db->set("user",$user);
         $this->db->set("password",$password);
+        $this->db->set("email",$email);
         $this->db->insert($this->table);
         return $this->db->insert_id();
     }
