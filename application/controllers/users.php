@@ -35,7 +35,7 @@ class users extends CI_Controller {
 
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('confirmpassword', 'Confirmar Password', 'required');
+		$this->form_validation->set_rules('confirmpassword', 'Confirmar Password', 'trim|required|matches[password]');
 		$this->form_validation->set_rules('newpassword', 'Nuevo Password', 'required');
 
 		if ($this->form_validation->run() == FALSE)
@@ -49,13 +49,8 @@ class users extends CI_Controller {
 			$this->load->model("users_model");
 			$id_user=$this->data["id_user"];
 			$newpassword=$this->input->post("newpassword");
-			$confirmpassword= $this->input->post("confirmpassword");
-			if ($newpassword!=$confirmpassword){
-				$this->data["OP"]="INCORRECT";
-			}else{
 			$this->users_model->changepassword($id_user,$newpassword);
-			$this->data["OP"]="CORRECT";	
-			}
+			$this->data["OP"]="CORRECT";				
 		}
 		$this->load->view('client/userinfo',$this->data);
 	}

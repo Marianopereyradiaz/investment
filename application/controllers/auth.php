@@ -54,10 +54,10 @@ class Auth extends CI_Controller {
 		$data=array();
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('confirmpassword', 'Confirmar Password', 'required');
+		$this->form_validation->set_rules('confirmpassword', 'Confirmar Password', 'trim|required|matches[password]');
 		$this->form_validation->set_rules('password', 'Nuevo Password', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'required');
-		$this->form_validation->set_rules('user', 'Usuario', 'required');
+		$this->form_validation->set_rules('user', 'Usuario', 'required|is_valid_username');
 
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -66,17 +66,56 @@ class Auth extends CI_Controller {
 			}			
 		}
 		else
-		{
-			$user=$this->input->post("user");
-			$confirmpassword= $this->input->post("confirmpassword");
-			$password= $this->input->post("password");
-			$email= $this->input->post("email");
-			if ($password!=$confirmpassword){
-				$this->data["OP"]="INCORRECT";
+		{			
+			$this->data["user"]=$this->input->post("user");
+			$this->data["confirmpassword"]= $this->input->post("confirmpassword");
+			$this->data["password"]= $this->input->post("password");
+			$this->data["OP"]=$email= $this->input->post("email");
+			if($this->users_model->verify_email($email)){
+				$this->data["OP"]="INVALID_EMAIL";
 			}else{
-			$this->users_model->new($user,$password,$email);
-			$this->data["OP"]="CORRECT";	
-			}
+				if($this->users_model->verify_username($this->data["user"])){
+					$this->data["OP"]="INVALID_USERNAME";
+				} else{
+					$config = Array(
+						'protocol' => 'smtp',
+						'smtp_host' => SMTP_HOST,
+						'smtp_port' => SMTP_PORT,
+						'smtp_user' => SMTP_USER,
+						'smtp_pass' => SMTP_PASS,
+						'mailtype'  => 'html', 
+						'charset'   => 'iso-8859-1'
+					);
+					$this->load->library('email', $config);
+					$this->email->set_newline("\r\n");
+					$this->email->from(SMTP_USER, 'Confirmar Registro');
+					$this->email->reply_to(set_value("email"));
+					$this->email->to(set_value("email"));
+					$this->email->cc(set_value("email"));
+	
+					$this->email->subject(set_value("Registro"));
+	
+					$data=array();
+					$data["email"]=set_value("email");
+					$this->session->set_userdata("email",set_value("email"));
+					$this->session->set_userdata("password",$this->data["password"]);
+					$this->session->set_userdata("user",$this->data["user"]);
+					$code=rand(100000,999999);
+					$data["code"]=$code;
+					$this->session->set_userdata("code",$code);
+	
+					$plantilla=$this->load->view("components/email", $data, TRUE);
+	
+					$this->email->message($plantilla);
+	
+					$this->email->send(FALSE);
+	
+					$this->session->set_userdata("action","register");
+					redirect("auth/validate_code");
+					$this->data["OP"]="CORRECT";	
+				}
+			}		
+			
 		}
 		$this->load->view('register',$this->data);
 	}
@@ -95,21 +134,21 @@ class Auth extends CI_Controller {
 			if($this->validate_email(set_value("email"))){
 				$config = Array(
 					'protocol' => 'smtp',
-					'smtp_host' => 'mail.maizan.elementfx.com',
-					'smtp_port' => 587,
-					'smtp_user' => 'mariano@maizan.elementfx.com',
-					'smtp_pass' => 'mariano123',
+					'smtp_host' => SMTP_HOST,
+					'smtp_port' => SMTP_PORT,
+					'smtp_user' => SMTP_USER,
+					'smtp_pass' => SMTP_PASS,
 					'mailtype'  => 'html', 
 					'charset'   => 'iso-8859-1'
 				);
 				$this->load->library('email', $config);
 				$this->email->set_newline("\r\n");
-				$this->email->from('mariano@maizan.elementfx.com', 'Recuperar Contraseña');
+				$this->email->from(SMTP_USER, 'Recuperar Contraseña');
 				$this->email->reply_to(set_value("email"));
 				$this->email->to(set_value("email"));
 				$this->email->cc(set_value("email"));
 
-				$this->email->subject(set_value("asunto"));
+				$this->email->subject(set_value("Recuperar Contraseña"));
 
 				$data=array();
 				$data["email"]=set_value("email");
@@ -123,6 +162,8 @@ class Auth extends CI_Controller {
 				$this->email->message($plantilla);
 
 				$this->email->send(FALSE);
+
+				$this->session->set_userdata("action","reset_password");
 
 				redirect("auth/validate_code");
 			}else{
@@ -144,26 +185,37 @@ class Auth extends CI_Controller {
 		$this->form_validation->set_rules('code', 'Codigo', 'trim|required|numeric');
 
 		if($this->form_validation->run() ==TRUE){
-			
-			if($this->session->userdata("code") == set_value("code")){
 
-				$userrec= $this->users_model->get_by_email($this->session->userdata("email"));
-				$this->session->set_userdata("userid",$userrec["id_user"]);
-				$this->session->set_userdata("user",$userrec["user"]);
-				$this->session->set_userdata("role",$userrec["role"]);
-				$this->session->set_userdata("forgotpass",true);
+			if($this->session->userdata("action") == "reset_password"){			
+				if($this->session->userdata("code") == set_value("code")){
 
-				$this->data["user"]=$userrec;
+					$userrec= $this->users_model->get_by_email($this->session->userdata("email"));
+					$this->session->set_userdata("userid",$userrec["id_user"]);
+					$this->session->set_userdata("user",$userrec["user"]);
+					$this->session->set_userdata("role",$userrec["role"]);
+					$this->session->set_userdata("forgotpass",true);
 
-				redirect("users/changepassword");
-			}else{
-				$this->data["OP"]="INVALID";
+					$this->data["user"]=$userrec;
+
+					redirect("users/changepassword");
+				}else{
+					$this->data["OP"]="INVALID";				
+				} 
+			} else {
+				if($this->session->userdata("action") == "register"){	
+					if($this->session->userdata("code") == set_value("code")){
+						$this->users_model->new($this->session->userdata("user"),$this->session->userdata("password"),$this->session->userdata("email"));
+						$this->data["OP"]="CORRECT";	
+						$this->load->view('register',$this->data);
+					}else{
+						$this->data["OP"]="INVALID";
+						redirect("auth/validate_code");
+					}	
+				}			
 			}
 		}else{
 
-		}
-
+		}	
 		$this->load->view('validation', $this->data);
-	}
-	
+	}	
 }

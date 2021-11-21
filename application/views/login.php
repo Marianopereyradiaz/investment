@@ -16,10 +16,12 @@
         background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
         margin: 2%
       }
-      h5, form.button, button, a{
+      div.center, h5, form.button, button, a{
         align-items: center;
         text-align: center;
+        margin: 2%;
       }
+      
     </style>
     </head>
     <body>
@@ -61,11 +63,16 @@
                     <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña"/>
                     <?php echo form_error('password', '<small class="text-danger">', '</small>'); ?>
                   </div>
-                  <a href="<?php echo site_url("auth/forgot_password"); ?>">Olvidé mi contraseña</a>
-                  <button type="submit" class="btn btn-primary button" >Ingresar</button>
+                  <div class="center">
+                    <a href="<?php echo site_url("auth/forgot_password"); ?>">Olvidé mi contraseña</a>
+                  </div>
+                  <div class="center">
+                    <button type="submit" class="btn btn-primary button" >Ingresar</button>
+                  </div>
                 </form>
-                <br>
-                <a href="<?php echo site_url("auth/register"); ?>">No eres usuario? REGISTRATE AQUI</a>
+                <div class="center">
+                  <a href="<?php echo site_url("auth/register"); ?>">No eres usuario? REGISTRATE AQUI</a>
+                </div>
               </div>
             </div>
           </div>
