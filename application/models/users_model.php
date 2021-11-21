@@ -87,5 +87,18 @@ class users_model extends CI_Model{
             return false;
         }
     }
+
+    public function verify_username($username=""){
+            $this->db->select("user");
+            $this->db->where("user",$username);
+            $this->db->limit(1);
+    
+            $res=$this->db->get($this->table);      
+            if($res->num_rows()){
+                return true;
+            }else{
+                return false;
+            }      
+    }
 }
 ?>

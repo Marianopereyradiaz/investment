@@ -40,13 +40,22 @@
                         </div>
                         <?php
                         break;
-                      case "INCORRECT":
-                        ?>
-                        <div class="alert alert-danger" role="alert">
-                          Usuario o Contraseña incorrecta
-                        </div>
-                        <?php
-                        break;
+                        case "INVALID_EMAIL":
+                          ?>
+                          <div class="alert alert-danger" role="alert">
+                            El mail ya se encuentra registrado
+                          </div>
+                          <a href="<?php echo site_url("auth/register")?>" class="btn btn-primary">Volver</a>
+                          <?php
+                          break;
+                          case "INVALID_USERNAME":
+                            ?>
+                            <div class="alert alert-danger" role="alert">
+                              Nombre de usuario ya existente
+                            </div>
+                            <a href="<?php echo site_url("auth/register")?>" class="btn btn-primary">Volver</a>
+                            <?php
+                            break;
                         case "CORRECT":
                           ?>
                           <div class="alert alert-success" role="alert">
@@ -80,6 +89,7 @@
                     <?php echo form_error('email', '<small class="text-danger">', '</small>'); ?>
                   </div>
                   <button type="submit" class="btn btn-primary button" >Aceptar</button>
+                  <a href="<?php echo site_url("auth")?>" class="btn btn-primary">Volver</a>
                 </form>
                 <?php } ?>
               </div>
