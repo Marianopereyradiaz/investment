@@ -39,31 +39,23 @@
                           Complete los datos del formulario
                         </div>
                         <?php
+                      break;
+                      case "CORRECT":
+                        ?>
+                        <div class="alert alert-success" role="alert">
+                          Contraseña cambiada con éxito, será redirigido al Login
+                        </div>
+                        <a href="<?php echo site_url("auth/exit")?>" class="btn btn-primary">Aceptar</a>
+                        <?php
+                      break;
+                      case "CHECK":
+                        ?>
+                        <div class="alert alert-success" role="alert">
+                          Registrado con éxito, será redirigido al Login
+                        </div>
+                        <a href="<?php echo site_url("auth/exit")?>" class="btn btn-primary">Aceptar</a>
+                        <?php
                         break;
-                        case "INVALID_EMAIL":
-                          ?>
-                          <div class="alert alert-danger" role="alert">
-                            El mail ya se encuentra registrado
-                          </div>
-                          <a href="<?php echo site_url("auth/register")?>" class="btn btn-primary">Volver</a>
-                          <?php
-                          break;
-                          case "INVALID_USERNAME":
-                            ?>
-                            <div class="alert alert-danger" role="alert">
-                              Nombre de usuario ya existente
-                            </div>
-                            <a href="<?php echo site_url("auth/register")?>" class="btn btn-primary">Volver</a>
-                            <?php
-                            break;
-                        case "CORRECT":
-                          ?>
-                          <div class="alert alert-success" role="alert">
-                            Contraseña cambiada con éxito, será redirigido al Login
-                          </div>
-                          <a href="<?php echo site_url("auth/exit")?>" class="btn btn-primary">Aceptar</a>
-                          <?php
-                          break;
                     }
                   }else{
                 ?>

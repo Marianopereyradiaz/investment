@@ -18,15 +18,15 @@
 			    <h1 style="text-align:center">Cotizaciones</h1>		
 			</div>
 		</div>
-        <div class="row">
-			<div class="col col-md-6 offset-md-3">
-            <iframe src="https://es.widgets.investing.com/live-currency-cross-rates?theme=darkTheme&roundedCorners=true&pairs=1505,1608,1729,2090" width="100%" height="600" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe><div class="poweredBy" style="font-family: Arial, Helvetica, sans-serif;"></div>	
-			</div>
-		</div>
-        <div class="row">
-			<div class="col col-md-6 offset-md-3">
-            <iframe src="https://es.widgets.investing.com/crypto-currency-rates?theme=darkTheme&roundedCorners=true&pairs=945629,997650,1001803,1010773,1010776" width="100%" height="600" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe><div class="poweredBy" style="font-family: Arial, Helvetica, sans-serif;"></div>
-            </div>
+      <div class="row">
+        <div class="col col-md-6 offset-md-3">
+          <iframe src="https://es.widgets.investing.com/live-currency-cross-rates?theme=darkTheme&roundedCorners=true&pairs=1505,1608,1729,2090" width="100%" height="300" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe><div class="poweredBy" style="font-family: Arial, Helvetica, sans-serif;"></div>	
+        </div>
+		  </div>
+      <div class="row">
+        <div class="col col-md-6 offset-md-3">
+        <iframe src="https://es.widgets.investing.com/crypto-currency-rates?theme=darkTheme&pairs=945629,997650,1010776,1118146" width="100%" height="300" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"></iframe><div class="poweredBy" style="font-family: Arial, Helvetica, sans-serif;"><a href="https://es.investing.com?utm_source=WMT&amp;utm_medium=referral&amp;utm_campaign=CRYPTO_CURRENCY_RATES&amp;utm_content=Footer%20Link" target="_blank" rel="nofollow"></a></div>
+        </div>
 		</div>
 	</div>
    

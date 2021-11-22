@@ -46,8 +46,17 @@
                     <?php echo form_error('name', '<small class="text-danger">', '</small>'); ?>
                   </div>
                   <div class="form-group">
-                    <label for="currency">Moneda:</label>
-                    <input type="text" class="form-control" name="currency"/>
+                  <label for="currency">Moneda:</label>
+                    <select id="currency" name="currency">
+                      <option value="ars">ARS</option>
+                      <option value="usd">USD</option>
+                      <option value="brl">BRL</option>
+                      <option value="eur">EUR</option>
+                      <option value="gbp">GBP</option>
+                      <option value="btc">BTC</option>
+                      <option value="eth">ETH</option>
+                      <option value="xrp">XRP</option>
+                    </select>
                     <?php echo form_error('currency', '<small class="text-danger">', '</small>'); ?>
                   </div>
                   <button type="submit" class="btn btn-primary button">Crear</button>
