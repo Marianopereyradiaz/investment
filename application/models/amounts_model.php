@@ -43,7 +43,13 @@ class amounts_model extends CI_Model{
         $this->db->where("id_fund",$id_fund);
         $last=$this->get_last($id_fund);
         if($last){
-            $this->db->set("diff",$amount-$last["amount"]);
+            if($last["amount"] == $amount){
+                $this->db->set("diff",0);
+                $this->db->set("perc",0);
+            }else{
+                $this->db->set("diff",$amount-$last["amount"]);
+                $this->db->set("perc",(($amount/$last["amount"]*100)-100));
+            }
         }else{
             $this->db->set("diff",'NULL', false);
         }
@@ -63,6 +69,12 @@ class amounts_model extends CI_Model{
         $this->db->where("id_fund",$id_fund);
         $this->db->delete($this->table);
         return $this->db->affected_rows();
+    }
+
+    function list_by_date($id_fund=0){
+        $this->db->where("id_fund",$id_fund);
+        $this->db->order_by("date","asc");
+        return $this->db->get($this->table)->result_array();
     }
 }
 ?>

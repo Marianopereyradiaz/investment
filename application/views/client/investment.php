@@ -8,7 +8,22 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
-    <title>Inversion</title>
+    <style>
+		#amounts_list{
+         overflow:scroll;
+		 overflow-x: hidden;
+         height:400px;
+         width:100%;
+		 margin-top: 5%;
+    	}	
+
+		.row{
+			margin-bottom: 5%;
+			text-align: center;
+		}
+	</style>
+	
+	<title>Inversion</title>
   </head>
   <body>
   <?php $this->load->view("components/navbar");?>
@@ -18,7 +33,6 @@
 			<div class="col col-md-6 offset-md-3">
 			<h1>Estado del fondo:</h1>
 			<form class="form-inline" method="post" action="">
-			 
 				<label for="amount" class="my-1 mr-2">Monto: </label>
 				<div class="input-group mb-2 mr-sm-2">
 					<div class="input-group-prepend">
@@ -31,7 +45,7 @@
 				<?php echo form_error("amount","<small class=\"text-danger\">","</small>")?>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" id="amounts_list">
 			<br>
 			<div class="col col-md-6 offset-md-3">
 			<br>
@@ -51,7 +65,21 @@
 										<?php }else{ ?>
 											<i class="bi bi-caret-up-fill text-success"></i>
 										<?php } ?>
-									<?php } ?>
+									<?php } else {
+										echo 0; }
+									?>
+								</td>
+								<td class="text-right">
+									<?php if($a["perc"]){?>			
+										<?php if($a["diff"]<=0){?>
+											<i class="bi bi-caret-down-fill text-danger"></i>
+										<?php }else{ ?>
+											<i class="bi bi-caret-up-fill text-success"></i>
+										<?php } ?>
+										<?php echo $a["perc"];?>%	
+									<?php } else {
+										echo 0; }
+									?>	
 								</td>
 								<td class="text-center col-sm-1"><a href="<?php echo site_url("amounts/delete/".$a["id_amount"]); ?>" class="text-danger"><i class="bi bi-x-circle"></i></a></td>
 							</tr>
@@ -62,6 +90,7 @@
 			</div>
 		</div>
 		<div class="row">
+			<br>
 			<br>
 			<div class="col col-md-6 offset-md-3">
 				<h4>Total acumulado desde el principio <strong>$<?php echo $accumulated; ?></strong></h4>
@@ -74,13 +103,20 @@
 		<div class="row">
 			<br>
 			<div class="col col-md-12 col-sm-8">
-				<div id="GoogleLineChart" style="height: 400px; width: 100%"></div>
+				<div id="GoogleLineChart" style="height: 100%; width: 100%"></div>
 			</div>
 		</div>
 		<?php } ?>
 		<div class="row">
+			<br>
+			<div class="col col-md-12 col-sm-8">
+				<div id="columnchart_material" style="height: auto; width: 100%"></div>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col col-md-6 offset-md-3">
-				<a href="<?php echo site_url("amounts/return"); ?>" class="btn btn-primary">Volver</a></td>
+				<a href="<?php echo site_url("amounts/return"); ?>"><button class="btn btn-primary">Volver</button></a></td>&nbsp;
+				<a href="<?php echo site_url("pdf")?>" target="_blank"><button class="btn btn-warning"><i class="bi bi-download"></i> Descargar</button></a>
 			</div>
 		</div>
 	</div>
@@ -119,11 +155,38 @@
 				chart.draw(data, options);
 			}
 		</script>
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
-    -->
-  </body>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+			google.charts.load('current', {'packages':['bar']});
+			google.charts.setOnLoadCallback(drawChart);
+
+				function drawChart() {
+					var data = google.visualization.arrayToDataTable([
+					['Fecha', 'Porcentaje'],
+					<?php 
+							foreach ($chart_array_perc as $ca){
+								echo "['".$ca['date']."',".$ca['perc']."],";
+						} ?>
+					]);
+
+					var options = {
+					chart: {
+						title: 'Rendimiento por Porcentajes',
+					}
+					};
+
+					var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+					chart.draw(data, google.charts.Bar.convertOptions(options));
+				}
+		</script>
+
+
+		<!-- Option 2: Separate Popper and Bootstrap JS -->
+		<!--
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+		-->
+	</body>
 </html>

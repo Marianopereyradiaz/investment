@@ -35,7 +35,7 @@ class users extends CI_Controller {
 
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('confirmpassword', 'Confirmar Password', 'trim|required|matches[password]');
+		$this->form_validation->set_rules('confirmpassword', 'Confirmar Password', 'trim|required|matches[newpassword]');
 		$this->form_validation->set_rules('newpassword', 'Nuevo Password', 'required');
 
 		if ($this->form_validation->run() == FALSE)

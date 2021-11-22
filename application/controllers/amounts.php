@@ -32,18 +32,36 @@ class amounts extends CI_Controller {
 		$this->data["accumulated"]=$this->amounts_model->calculate_accumulated($id_fund);
 		$amounts_array =$this->amounts_model->list($id_fund);
 		$this->data["amounts"]=$amounts_array;
+		$this->session->set_userdata("amounts", $amounts_array);
+		$this->session->set_userdata("accumulated",$this->data["accumulated"]);
+		$this->load->model("funds_model");
+		$fund=$this->funds_model->get_by_id($id_fund);
+		$this->session->set_userdata("fund_name",$fund["name"]);
+		$this->session->set_userdata("fund_currency",$fund["currency"]);
+		$amounts_by_date=$this->amounts_model->list_by_date($id_fund);
 
-		if(count($amounts_array)>0){
-			foreach($amounts_array as $aa) {
+		if(count($amounts_by_date)>0){
+			foreach($amounts_by_date as $aa) {
 				$chart_array[] =array(
 				'date'   => $aa['date'],
 				'amount' => floatval($aa['amount'])
 				);
 			}
         
-        $this->data['chart_array'] = $chart_array; 
+        	$this->data['chart_array'] = $chart_array; 
+
+			foreach($amounts_by_date as $aa) {
+				$chart_array_perc[] =array(
+				'date'   => $aa['date'],
+				'perc' => floatval($aa['perc'])
+				);
+			}
+
+			$this->data['chart_array_perc'] = $chart_array_perc; 
+
 		}else{
 			$this->data['chart_array'] = false; 
+			$this->data['chart_array_perc'] = false; 
 		}
 
 		$this->load->view('client/investment',$this->data);
