@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class amounts extends CI_Controller {
+class Amounts extends CI_Controller {
 
 	protected $data=array();
 
@@ -22,7 +22,7 @@ class amounts extends CI_Controller {
 	{
 		$id_fund=$this->session->userdata("id_fund");
 		$this->load->library("form_validation");
-		$this->form_validation->set_rules('amount', 'Monto', 'trim|required|numeric');
+		$this->form_validation->set_rules('amount', 'Monto', 'required|numeric');
 
 		if ($this->form_validation->run() == TRUE) {
 			$this->amounts_model->add(set_value("amount"),$id_fund);
@@ -50,20 +50,30 @@ class amounts extends CI_Controller {
         
         	$this->data['chart_array'] = $chart_array; 
 
+            $first=$this->amounts_model->get_first($id_fund);
 			foreach($amounts_by_date as $aa) {
 				$chart_array_perc[] =array(
 				'date'   => $aa['date'],
-				'perc' => floatval($aa['perc'])
+				'perc' => floatval((($aa['amount']/$first["amount"])*100)-100)
 				);
 			}
 
 			$this->data['chart_array_perc'] = $chart_array_perc; 
+
+			$this->load->model("funds_model");
+
+			if($i=count($chart_array_perc)>1){
+				$last=end($chart_array_perc);
+				$perc=$last["perc"];
+				$this->funds_model->update($id_fund,$perc,$this->data["accumulated"]);
+			}
 
 		}else{
 			$this->data['chart_array'] = false; 
 			$this->data['chart_array_perc'] = false; 
 		}
 
+		$this->data["fund_name"]=$fund["name"];
 		$this->load->view('client/investment',$this->data);
 	}
 

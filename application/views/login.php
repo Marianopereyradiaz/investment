@@ -8,23 +8,23 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    
-    <title>Hola!</title>
+    <link rel="icon" href="<?php echo base_url();?>/logo.png" type="image/png">
+    <title>Login</title>
     <style>
-      body{
-        background: rgb(82,0,221);
-        background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
-        margin: 2%
-      }
-      div.center, h5, form.button, button, a{
-        align-items: center;
-        text-align: center;
-        margin: 2%;
-      }
-      
-    </style>
+		body{
+			background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
+		}
+		.container{
+			margin:auto;
+			background-color: white;
+			border-radius: 2%;
+			text-align: center;
+			padding: 2%;
+		}
+  </style>
     </head>
     <body>
+      <br>
       <div class="container">
         <div class="row">
           <div class="col-md-4 offset-md-4">
@@ -70,6 +70,7 @@
                     <button type="submit" class="btn btn-primary button" >Ingresar</button>
                   </div>
                 </form>
+                <br>
                 <div class="center">
                   <a href="<?php echo site_url("auth/register"); ?>">No eres usuario? REGISTRATE AQUI</a>
                 </div>

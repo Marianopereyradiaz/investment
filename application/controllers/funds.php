@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class funds extends CI_Controller {
+class Funds extends CI_Controller {
 
 	protected $data=array();
 
@@ -42,9 +42,11 @@ class funds extends CI_Controller {
 
 	public function create(){
 		$this->load->library('form_validation');
+		$this->load->model("amounts_model");
 
 		$this->form_validation->set_rules('name', 'Nombre', 'required');
 		$this->form_validation->set_rules('currency', 'Moneda', 'required');
+		$this->form_validation->set_rules('initial', 'Inversión Inicial', 'required|numeric');
 
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -56,10 +58,13 @@ class funds extends CI_Controller {
 		{
 			$name=$this->input->post("name");
 			$currency=$this->input->post("currency");
+			$initial_amount=$this->input->post("initial");
 			if($this->validate_name($name)){
 				$data["OPT"]="INVALID";
-			}else{
-				$this->funds_model->add($name,$this->session->userdata("userid"),$currency);
+			}else{				
+				$new_fund_id=$this->funds_model->add($name,$this->session->userdata("userid"),$currency);
+				$this->amounts_model->add($initial_amount,$new_fund_id);
+
 				redirect("funds");
 			}
 		}	
@@ -67,12 +72,17 @@ class funds extends CI_Controller {
 	}
 
 	public function validate_name($name){
-		$funds=$this->funds_model->list_by_user($this->session->userdata("userid"));
+		$funds=$this->funds_model->list_all_by_user($this->session->userdata("userid"));
 		foreach($funds as $f){
 			if ($f["name"] == $name){
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public function historic(){
+		$this->data["all_funds"] = $this->funds_model->list_all_by_user($this->session->userdata("userid"));
+		$this->load->view('client/history',$this->data);
 	}
 }

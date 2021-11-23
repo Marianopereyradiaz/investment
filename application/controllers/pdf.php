@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class pdf extends CI_Controller {
+class Pdf extends CI_Controller {
 
 	protected $data=array();
 

@@ -1,6 +1,5 @@
-
 <?php
-class amounts_model extends CI_Model{
+class Amounts_model extends CI_Model{
 
     private $table="amounts";
 
@@ -51,7 +50,7 @@ class amounts_model extends CI_Model{
                 $this->db->set("perc",(($amount/$last["amount"]*100)-100));
             }
         }else{
-            $this->db->set("diff",'NULL', false);
+            $this->db->set("diff",'0', false);
         }
         $this->db->set("amount",$amount);
         $this->db->set("id_fund", $id_fund);

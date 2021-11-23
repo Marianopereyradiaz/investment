@@ -1,5 +1,5 @@
 <div class="card">
-<img src="assets\img\logo.png" style="width:100%">
+<img src="assets\img\logo.png" style="width:50%; height:50%">
 <div class="container">
     <h4><b>Mis Fondos de Inversion</b></h4>
             <p>

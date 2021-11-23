@@ -8,19 +8,26 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
-    <style>
+	<link rel="icon" href="<?php echo base_url();?>/logo.png" type="image/png">  
+  	<style>
 		#amounts_list{
-         overflow:scroll;
-		 overflow-x: hidden;
-         height:400px;
-         width:100%;
-		 margin-top: 5%;
-    	}	
-
-		.row{
-			margin-bottom: 5%;
-			text-align: center;
+			overflow:scroll;
+			overflow-x: hidden;
+			height:400px;
+			width:auto;
+			margin-top: 5%;
+		}	
+		body{
+			background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
 		}
+		.container{
+			margin:auto;
+			background-color: white;
+			border-radius: 2%;
+			text-align: center;
+			padding: 2%;
+		}
+
 	</style>
 	
 	<title>Inversion</title>
@@ -29,16 +36,25 @@
   <?php $this->load->view("components/navbar");?>
 	<div class="container">
 		<div class="row">
+			<div class="col col-md-10 offset-md-1">
+				<?php $this->load->view("components/currency_converter");?>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-md-6 offset-md-3">
+				<h1>Estado del Fondo <?php echo $fund_name; ?></h1>
+			</div>
+		</div>
+		<div class="row">
 			<br>
 			<div class="col col-md-6 offset-md-3">
-			<h1>Estado del fondo:</h1>
 			<form class="form-inline" method="post" action="">
 				<label for="amount" class="my-1 mr-2">Monto: </label>
 				<div class="input-group mb-2 mr-sm-2">
 					<div class="input-group-prepend">
 					<div class="input-group-text">$</div>
 					</div>
-					<input type="text" class="form-control" id="amount" name="amount">	
+					<input type="text" class="form-control" id="amount" placeholder="0.00" name="amount">	
 				</div>
 				<button type="submit" class="btn btn-primary mb-2">Actualizar</button>
 				</form>
@@ -103,16 +119,17 @@
 		<div class="row">
 			<br>
 			<div class="col col-md-12 col-sm-8">
-				<div id="GoogleLineChart" style="height: 100%; width: 100%"></div>
+				<div id="GoogleLineChart" style="height: auto; width: 100%"></div>
 			</div>
 		</div>
 		<?php } ?>
 		<div class="row">
 			<br>
 			<div class="col col-md-12 col-sm-8">
-				<div id="columnchart_material" style="height: auto; width: 100%"></div>
+				<div id="columnchart_material" style="height:auto; width: 100%"></div>
 			</div>
 		</div>
+		<br>
 		<div class="row">
 			<div class="col col-md-6 offset-md-3">
 				<a href="<?php echo site_url("amounts/return"); ?>"><button class="btn btn-primary">Volver</button></a></td>&nbsp;
@@ -120,11 +137,8 @@
 			</div>
 		</div>
 	</div>
+	<?php $this->load->view("components/footer"); ?>
     
-
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 	
@@ -162,7 +176,7 @@
 
 				function drawChart() {
 					var data = google.visualization.arrayToDataTable([
-					['Fecha', 'Porcentaje'],
+					['Fecha', '%'],
 					<?php 
 							foreach ($chart_array_perc as $ca){
 								echo "['".$ca['date']."',".$ca['perc']."],";
@@ -180,13 +194,5 @@
 					chart.draw(data, google.charts.Bar.convertOptions(options));
 				}
 		</script>
-
-
-		<!-- Option 2: Separate Popper and Bootstrap JS -->
-		<!--
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
-		-->
 	</body>
 </html>
