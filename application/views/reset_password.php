@@ -18,21 +18,20 @@
 			padding: 2%;
 		}
   </style>
-    <title>Validar</title>
+    <title>Recuperar Contraseña</title>
   </head>
   <body>
   <br>
 	<div class="container">
 		<div class="row">
 			<div class="col col-md-6 offset-md-3">
-				<h1 style="text-align:center">Validar</h1>
+				<h1 style="text-align:center">Recuperar Contraseña</h1>
       </div>
     </div>
       <div class="row">
         <div class="col-md-6 offset-md-3">
           <div class="card">
             <div class="card-body">
-              <h3>Ingrese el código que le hemos enviado por mail</h3>
               <?php
                 if(isset($OP)){
                   switch($OP){
@@ -46,7 +45,7 @@
                     case "INVALID":
                       ?>
                       <div class="alert alert-danger" role="alert">
-                        Codigo Invalido
+                        Cuenta de email no válida
                       </div>
                       <?php
                       break;
@@ -55,9 +54,9 @@
               ?>
               <form method="post">
                 <div class="form-group">
-                  <label for="name">Código de validación:</label>
-                  <input type="text" class="form-control" name="code">
-                  <?php echo form_error('code', '<small class="text-danger">', '</small>'); ?>
+                  <label for="email">Cuenta de Email:</label>
+                  <input type="text" class="form-control" name="email">
+                  <?php echo form_error('email', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <button type="submit" class="btn btn-primary button">Aceptar</button>
                 <a href="<?php echo site_url("auth/exit"); ?>" class="btn btn-success">Cancelar</a></td></a>

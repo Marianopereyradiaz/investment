@@ -45,7 +45,7 @@ class Forum extends CI_Controller {
 
 			$name=set_value("name");
 			$content=set_value("content");
-            $user=$this->session->userdata("userid");
+            $user=$this->session->userdata("user");
             $this->topics_model->add($name,$content,$user);
             redirect("forum");
 		}
@@ -58,15 +58,20 @@ class Forum extends CI_Controller {
         redirect("forum");
     }
 
-    public function see_topic($id_topic=""){
+    public function go_to_topic($id_topic){
+        $this->session->set_userdata("id_topic",$id_topic);
+        redirect("forum/see_topic");
+    }
+
+    public function see_topic(){
         
-        $this->data["comments"]=$this->comments_model->list_by_topic($id_topic);
-        $this->data["topic"]=$this->topics_model->get_by_id($id_topic);
+        $this->data["comments"]=$this->comments_model->list_by_topic($this->session->userdata["id_topic"]);
+        $this->data["topic"]=$this->topics_model->get_by_id($this->session->userdata["id_topic"]);
         $this->load->view('see_topic',$this->data);
 
     }
 
-    public function add_comment($id_topic=""){
+    public function add_comment(){
         
         $this->load->library('Form_validation');
 
@@ -83,8 +88,9 @@ class Forum extends CI_Controller {
             $this->load->model("comments_model");
 			$message=set_value("message");
             $user=$this->session->userdata("user");
-            $this->comments_model->add($message,$user,$id_topic);
-            redirect("forum");
+            $this->comments_model->add($message,$user,$this->session->userdata["id_topic"]);
+            $this->data["topic"]=$this->topics_model->get_by_id($this->session->userdata["id_topic"]);
+            redirect("forum/see_topic");
 		}
         $this->load->view('create_message',$this->data);
     }
