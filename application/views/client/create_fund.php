@@ -8,10 +8,24 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    
+    <link rel="icon" href="<?php echo base_url();?>/logo.png" type="image/png">
+    <style>
+		body{
+			background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
+		}
+		.container{
+			margin:auto;
+			background-color: white;
+			border-radius: 2%;
+			text-align: center;
+			padding: 2%;
+		}
+  </style>
+  </style>
     <title>Crear Fondo</title>
     </head>
     <body>
+    <br>
       <div class="container">
         <br>
         <div class="row">
@@ -59,6 +73,11 @@
                     </select>
                     <?php echo form_error('currency', '<small class="text-danger">', '</small>'); ?>
                   </div>
+                  <div class="form-group">
+                    <label for="initial">Inversión Inicial:</label>
+                    <input type="text" class="form-control" name="initial">
+                    <?php echo form_error('initial', '<small class="text-danger">', '</small>'); ?>
+                  </div>
                   <button type="submit" class="btn btn-primary button">Crear</button>
                   <a href="<?php echo site_url("funds"); ?>" class="btn btn-success">Volver</a></td></a>
                 </form>
@@ -67,7 +86,7 @@
           </div>
         </div>       
       </div>
-
+    <?php $this->load->view("components/footer"); ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 

@@ -1,6 +1,6 @@
 <?php
 
-class users_model extends CI_Model{
+class Users_model extends CI_Model{
 
     private $table="users";
 
@@ -29,6 +29,7 @@ class users_model extends CI_Model{
         $this->db->select("id_user");
         $this->db->where("user",$user);
         $this->db->where("password",$password);
+        $this->db->where("state",1);
         $this->db->limit(1);
 
         $res=$this->db->get($this->table);      
@@ -88,17 +89,28 @@ class users_model extends CI_Model{
         }
     }
 
-    public function verify_username($username=""){
-            $this->db->select("user");
-            $this->db->where("user",$username);
-            $this->db->limit(1);
-    
-            $res=$this->db->get($this->table);      
-            if($res->num_rows()){
-                return true;
-            }else{
-                return false;
-            }      
+    public function ban_by_id($id_user=""){
+        $this->db->where("id_user",$id_user);
+        $this->db->set("state",0,false);
+        $this->db->update($this->table);
+    }
+
+    public function permit_by_id($id_user=""){
+        $this->db->where("id_user",$id_user);
+        $this->db->set("state",1,false);
+        $this->db->update($this->table);
+    }
+
+    public function set_admin_by_id($id_user=""){
+        $this->db->where("id_user",$id_user);
+        $this->db->set("role",'admin',true);
+        $this->db->update($this->table);
+    }
+
+    public function set_client_by_id($id_user=""){
+        $this->db->where("id_user",$id_user);
+        $this->db->set("role",'client',true);
+        $this->db->update($this->table);
     }
 }
 ?>

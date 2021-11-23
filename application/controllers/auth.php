@@ -20,7 +20,7 @@ class Auth extends CI_Controller {
 	public function login(){
 		$data=array();
 
-		$this->load->library('form_validation');
+		$this->load->library('Form_validation');
 
 		$this->form_validation->set_rules('user', 'Usuario', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
@@ -36,7 +36,7 @@ class Auth extends CI_Controller {
 		{
 			$this->load->model("users_model");
 			$user=set_value("user");
-			$password=$this->input->post("password");
+			$password=md5($this->input->post("password"));
 			if($id_user=$this->users_model->verify($user,$password)){
 				$u=$this->users_model->get_by_id($id_user);
 				$this->session->set_userdata("userid",$u["id_user"]);
@@ -55,9 +55,9 @@ class Auth extends CI_Controller {
 		$this->load->library('form_validation');
 
 		$this->form_validation->set_rules('confirmpassword', 'Confirmar Password', 'trim|required|matches[password]');
-		$this->form_validation->set_rules('password', 'Nuevo Password', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required|is_valid_email');
-		$this->form_validation->set_rules('user', 'Usuario', 'required|is_valid_username');
+		$this->form_validation->set_rules('password', 'Nuevo Password', 'required|min_length[6]|max_length[20]');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
+		$this->form_validation->set_rules('user', 'Usuario', 'required|is_unique[users.user]');
 
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -68,8 +68,8 @@ class Auth extends CI_Controller {
 		else
 		{			
 			$this->data["user"]=$this->input->post("user");
-			$this->data["confirmpassword"]= $this->input->post("confirmpassword");
-			$this->data["password"]= $this->input->post("password");
+			$this->data["confirmpassword"]= md5($this->input->post("confirmpassword"));
+			$this->data["password"]= md5($this->input->post("password"));
 			$this->data["OP"]=$this->input->post("email");
 			$config = Array(
 				'protocol' => 'smtp',
@@ -82,12 +82,12 @@ class Auth extends CI_Controller {
 			);
 			$this->load->library('email', $config);
 			$this->email->set_newline("\r\n");
-			$this->email->from(SMTP_USER, 'Confirmar Registro');
+			$this->email->from(SMTP_USER, 'Mis Inversiones');
 			$this->email->reply_to(set_value("email"));
 			$this->email->to(set_value("email"));
 			$this->email->cc(set_value("email"));
 
-			$this->email->subject("Código de validación");
+			$this->email->subject("Codigo de registro");
 
 			$data=array();
 			$data["email"]=set_value("email");
@@ -108,7 +108,7 @@ class Auth extends CI_Controller {
 			redirect("auth/validate_code");
 			$this->data["OP"]="CORRECT";	
 		}
-		if($this->session->userdata("action") == "register"){
+        if($this->session->userdata("action") == "registerOK"){
 			$this->data["OP"]="CHECK";
 		}
 		$this->load->view('register',$this->data);
@@ -137,7 +137,7 @@ class Auth extends CI_Controller {
 				);
 				$this->load->library('email', $config);
 				$this->email->set_newline("\r\n");
-				$this->email->from(SMTP_USER, 'Recuperar Password');
+				$this->email->from(SMTP_USER, 'Mis Inversiones');
 				$this->email->reply_to(set_value("email"));
 				$this->email->to(set_value("email"));
 				$this->email->cc(set_value("email"));
@@ -173,7 +173,7 @@ class Auth extends CI_Controller {
 
 	public function validate_code(){
 		$this->load->library("form_validation");
-		$this->form_validation->set_rules('code', 'Codigo', 'trim|required|numeric|is_valid_code');
+		$this->form_validation->set_rules('code', 'Codigo', 'trim|required|numeric');
  	
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -181,25 +181,30 @@ class Auth extends CI_Controller {
 				$this->data["OP"]="INVALID";
 			}			
 		}else {
-
-			if($this->session->userdata("action") == "reset_password"){			
-
-				$userrec= $this->users_model->get_by_email($this->session->userdata("email"));
-				$this->session->set_userdata("userid",$userrec["id_user"]);
-				$this->session->set_userdata("user",$userrec["user"]);
-				$this->session->set_userdata("role",$userrec["role"]);
-				$this->session->set_userdata("forgotpass",true);
-
-				$this->data["user"]=$userrec;
-
-				redirect("users/changepassword");
-
-			}
-			if($this->session->userdata("action") == "register"){	
-
-				$this->users_model->new($this->session->userdata("user"),$this->session->userdata("password"),$this->session->userdata("email"));				
-				redirect("auth/register");
-			}						
+            if(set_value("code")==$this->session->userdata("code")){
+                
+    			if($this->session->userdata("action") == "reset_password"){			
+    
+    				$userrec= $this->users_model->get_by_email($this->session->userdata("email"));
+    				$this->session->set_userdata("userid",$userrec["id_user"]);
+    				$this->session->set_userdata("user",$userrec["user"]);
+    				$this->session->set_userdata("role",$userrec["role"]);
+    				$this->session->set_userdata("forgotpass",true);
+    
+    				$this->data["user"]=$userrec;
+    
+    				redirect("users/changepassword");
+     
+    			}
+    			if($this->session->userdata("action") == "register"){	
+    
+    				$this->users_model->new($this->session->userdata("user"),$this->session->userdata("password"),$this->session->userdata("email"));
+    				$this->session->set_userdata("action","registerOK");
+    				redirect("auth/register");
+    			}	
+            } else {
+                $this->data["OP"]="INVALID";
+            }
 		}
 		$this->load->view('validation', $this->data);
 	}	

@@ -8,7 +8,19 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    
+    <link rel="icon" href="<?php echo base_url();?>/logo.png" type="image/png">
+    <style>
+		body{
+			background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
+		}
+		.container{
+			margin:auto;
+			background-color: white;
+			border-radius: 2%;
+			text-align: center;
+			padding: 2%;
+		}
+  </style>
     <title>Datos de Usuario</title>
     <style>
       h5{
@@ -24,13 +36,13 @@
         $this->load->view("components/navbar");
       }?>
       <div class="container">
-      <br>
+      <h1>Cambiar Contraseña</h1>
         <div class="row">
           <div class="col-md-4 offset-md-4">
             <div class="card">
             <img src="<?php echo base_url("assets\img\changepass.png"); ?>" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Cambiar Contraseña</h5>
+                <h5 class="card-title">Ingrese su nueva contraseña:</h5>
                 <form method="post">
                   <div class="form-group">
                     <label for="password">Nuevo Password:</label>
@@ -74,7 +86,7 @@
                 ?>
                   <button type="submit" class="btn btn-primary">Aceptar</button>
                   <?php if(!$forgotpass){ ?>
-                    <a href="<?php echo site_url("amounts")?>" class="btn btn-primary">Volver</a>
+                    <a href="<?php echo site_url("funds")?>" class="btn btn-primary">Volver</a>
                   <?php } else{ ?>
                       <a href="<?php echo site_url("auth")?>" class="btn btn-primary">Cancelar</a>
                   <?php } ?>
@@ -83,9 +95,8 @@
               </div>
             </div>
           </div>
-        </div>       
-      </div>
-
+        </div>
+        <?php $this->load->view("components/footer"); ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 

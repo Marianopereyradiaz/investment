@@ -9,20 +9,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     
-    <title>Hola!</title>
+    <link rel="icon" href="<?php echo base_url();?>/logo.png" type="image/png">
+    <title>Registro</title>
     <style>
-      body{
-        background: rgb(82,0,221);
-        background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
-        margin: 2%
-      }
-      h5, form.button, button, a{
-        align-items: center;
-        text-align: center;
-      }
-    </style>
+		body{
+			background: linear-gradient(90deg, rgba(82,0,221,1) 13%, rgba(236,155,68,1) 89%);
+		}
+		.container{
+			margin:auto;
+			background-color: white;
+			border-radius: 2%;
+			text-align: center;
+			padding: 2%;
+		}
+  </style>
     </head>
     <body>
+      <br>
       <div class="container">
         <div class="row">
           <div class="col-md-4 offset-md-4">
@@ -81,7 +84,7 @@
                     <?php echo form_error('email', '<small class="text-danger">', '</small>'); ?>
                   </div>
                   <button type="submit" class="btn btn-primary button" >Aceptar</button>
-                  <a href="<?php echo site_url("auth")?>" class="btn btn-primary">Volver</a>
+                  <a href="<?php echo site_url("auth/exit")?>" class="btn btn-primary">Volver</a>
                 </form>
                 <?php } ?>
               </div>
