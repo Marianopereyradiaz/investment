@@ -50,7 +50,7 @@ class Funds_model extends CI_Model{
     function delete_real($id_fund=''){
         $this->db->where("id_fund",$id_fund);
         $this->db->limit(1);
-        $this->db->update($this->table);
+        $this->db->delete($this->table);
         return $this->db->affected_rows();
     }
 }
