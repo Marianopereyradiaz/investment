@@ -54,7 +54,7 @@
                                 <td><?php echo $t["date"];?> </td>
                                 <td><?php echo $t["name"];?> </td>
                                 <td><?php echo $t["user"];?> </td>
-                                <td><a href="<?php echo site_url("forum/see_topic/".$t["id_topic"]); ?>" class="btn btn-success">Ir</a></td>
+                                <td><a href="<?php echo site_url("forum/go_to_topic/".$t["id_topic"]); ?>" class="btn btn-success">Ir</a></td>
                                 <?php if($role=="admin"){ ?>
                                 <td><a href="<?php echo site_url("forum/delete_topic/".$t["id_topic"]); ?>" class="btn btn-danger">Eliminar</a></td>
                                 <?php } ?>

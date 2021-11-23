@@ -12,10 +12,10 @@
       </li>
       <?php } ?>
       <li class="nav-item active">
-        <a class="nav-link" href="<?php echo site_url("users/quotations")?>"><i class="bi bi-people-fill text-success"></i> Cotizaciones <span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="<?php echo site_url("users/quotations")?>"><i class="bi bi-coin text-warning"></i> Cotizaciones <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="<?php echo site_url("forum")?>"><i class="bi bi-people-fill text-success"></i> Foro <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<?php echo site_url("forum")?>"><i class="bi bi-chat-left-dots-fill text-primary"></i> Foro <span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
